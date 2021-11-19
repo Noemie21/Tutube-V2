@@ -63,7 +63,7 @@ class Comment
 
     public function setPublicationDate(\DateTimeImmutable $publicationDate): self
     {
-        $this->publicationDate = $publicationDate;
+        $this->publicationDate = new \DateTime('now');
 
         return $this;
     }
@@ -90,5 +90,9 @@ class Comment
         $this->video = $video;
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->name;
     }
 }

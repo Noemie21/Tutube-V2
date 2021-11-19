@@ -6,6 +6,7 @@ use App\Repository\VideoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use \Datetime;
 
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)
@@ -58,6 +59,7 @@ class Video
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->publicationDate = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -137,6 +139,9 @@ class Video
         return $this;
     }
 
+        public function __toString() {
+        return $this->name;
+    }
     /**
      * @return Collection|Comment[]
      */
