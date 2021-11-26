@@ -1,11 +1,20 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}New Video{% endblock %}
 
 {% block body %}
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     <h1>Create new Video</h1>
 
     {{ include('video/_form.html.twig') }}
 
     <a href="{{ path('video_index') }}">back to list</a>
+{% else %}
+<div>
+    <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+    <a class="nav-link" href="{{ path('app_login') }}">LogIn</a>
+</div>
+{% endif %}
 {% endblock %}
+

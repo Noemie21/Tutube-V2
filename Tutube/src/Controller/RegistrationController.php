@@ -27,6 +27,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            dd($form->get('isAdmin')->getData());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

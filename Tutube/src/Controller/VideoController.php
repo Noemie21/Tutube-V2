@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Video;
 use App\Form\VideoType;
 use App\Repository\VideoRepository;
+use App\Entity\Comment;
+use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +32,7 @@ class VideoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $video->setSubstrLink(substr($video->getLink(), 17));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($video);
             $entityManager->flush();
@@ -43,10 +47,25 @@ class VideoController extends AbstractController
     }
 
     #[Route('/{id}', name: 'video_show', methods: ['GET'])]
-    public function show(Video $video): Response
+    public function show(Video $video, Request $request): Response
     {
+        $comment = new Comment();
+        $comment->setAuthor($this->getUser());
+        $comment->setVideo($video);
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('comment_index', [], Response::HTTP_SEE_OTHER);
+        }
         return $this->render('video/show.html.twig', [
             'video' => $video,
+            'comment' => $comment,
+            'form' => $form->createView(),
         ]);
     }
 

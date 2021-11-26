@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use \DateTimeImmutable;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
@@ -39,6 +40,11 @@ class Comment
      */
     private $video;
 
+    public function __construct()
+    {
+        $this->publicationDate = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,7 +69,7 @@ class Comment
 
     public function setPublicationDate(\DateTimeImmutable $publicationDate): self
     {
-        $this->publicationDate = new \DateTime('now');
+        $this->publicationDate = $publicationDate;
 
         return $this;
     }

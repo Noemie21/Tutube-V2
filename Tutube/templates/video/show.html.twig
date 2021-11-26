@@ -3,38 +3,25 @@
 {% block title %}Video{% endblock %}
 
 {% block body %}
+    <a href="{{ path('default') }}"><i class="fas fa-arrow-left"></i></a>
     <h1>Video</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ video.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ video.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ video.description }}</td>
-            </tr>
-            <tr>
-                <th>PublicationDate</th>
-                <td>{{ video.publicationDate ? video.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Views</th>
-                <td>{{ video.views }}</td>
-            </tr>
-            <tr>
-                <th>Link</th>
-                <td>{{ video.link }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h3>{{ video.name }}</h3>
 
-    <a href="{{ path('video_index') }}">back to list</a>
+    <iframe width="560" height="315" src={{ 'https://www.youtube.com/embed/' ~ video.substrLink }} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <p>Description : </p>
+    <p>{{ video.description }}</p>
+    <p>Date de publication : {{ video.publicationDate ? video.publicationDate|date('Y-m-d') : '' }}</p>
+    <p>Author : <a href="{{ path('user_show', {'id': video.author.id}) }}">{{video.author}}</a></p>
+    
+    <h3>Commentaires : </h3>
+    {% for comment in video.comments %}
+    <p><b>{{comment.author}}</b> : {{comment.content}}</p>
+    {% endfor %} 
+    <h3>Ajouter un Commentaire</h3>
+    {{ include('comment/_form.html.twig') }}
+
+    
 
     <a href="{{ path('video_edit', {'id': video.id}) }}">edit</a>
 

@@ -14,6 +14,7 @@ class UserType extends AbstractType
         $builder
             ->add('email')
             ->add('password')
+            ->add('isAdmin', CheckboxType::class)
             ->add('name')
             ->add('lastname')
             ->add('pseudo')

@@ -3,6 +3,7 @@
 {% block title %}Edit Video{% endblock %}
 
 {% block body %}
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     <h1>Edit Video</h1>
 
     {{ include('video/_form.html.twig', {'button_label': 'Update'}) }}
@@ -10,4 +11,11 @@
     <a href="{{ path('video_index') }}">back to list</a>
 
     {{ include('video/_delete_form.html.twig') }}
+{% else %}
+    <div>
+        <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+        <a class="nav-link" href="{{ path('app_login') }}">LogIn</a>
+    </div>
+{% endif %}
 {% endblock %}
+

@@ -22,14 +22,36 @@
                 <a class="navbar-brand" href="{{ path('default') }}">Home</a>
                 <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ path('default') }}">Profil</a>
+                    <a class="nav-link" href="{{ path('user_show', {id:app.user.id})}}">Profil</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ path('default') }}">Vidéos</a>
+                    <a class="nav-link" href="{{ path('video_index') }}">Vidéos</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="{{ path('default') }}">Autre</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">LogOut</a>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">LogIn</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{ path('default') }}">Autre</a>
+                    </li>
+                
+                {% endif %}
+                    
+                    
                     </li>
                 </ul>
                 </div>

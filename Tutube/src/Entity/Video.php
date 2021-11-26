@@ -46,6 +46,11 @@ class Video
     private $link;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $substrLink;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="videos")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -123,6 +128,18 @@ class Video
     public function setLink(string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getSubstrLink(): ?string
+    {
+        return $this->substrLink;
+    }
+
+    public function setSubstrLink(string $substrLink): self
+    {
+        $this->substrLink = $substrLink;
 
         return $this;
     }
