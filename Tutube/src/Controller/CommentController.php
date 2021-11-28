@@ -20,7 +20,7 @@ class CommentController extends AbstractController
             'comments' => $commentRepository->findAll(),
         ]);
     }
-
+/*
     #[Route('/new', name: 'comment_new', methods: ['GET','POST'])]
     public function new(Request $request): Response
     {
@@ -41,7 +41,7 @@ class CommentController extends AbstractController
             'form' => $form,
         ]);
     }
-
+*/
     #[Route('/{id}', name: 'comment_show', methods: ['GET'])]
     public function show(Comment $comment): Response
     {

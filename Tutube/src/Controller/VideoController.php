@@ -6,6 +6,7 @@ use App\Entity\Video;
 use App\Form\VideoType;
 use App\Repository\VideoRepository;
 use App\Entity\Comment;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,6 +29,8 @@ class VideoController extends AbstractController
     public function new(Request $request): Response
     {
         $video = new Video();
+        $video->setAuthor($this->getUser());
+        $video->setViews(0);
         $form = $this->createForm(VideoType::class, $video);
         $form->handleRequest($request);
 
@@ -46,7 +49,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'video_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'video_show', methods: ['GET','POST'])]
     public function show(Video $video, Request $request): Response
     {
         $comment = new Comment();
@@ -59,8 +62,7 @@ class VideoController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
-
-            return $this->redirectToRoute('comment_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('default', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('video/show.html.twig', [
             'video' => $video,
@@ -85,6 +87,16 @@ class VideoController extends AbstractController
             'video' => $video,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/addView', name: 'video_addview', methods: ['GET','POST'])]
+    public function addView(Request $request, Video $video): Response
+    {
+        $video->setViews($video->getViews() + 1);
+        $user = $video->getAuthor();
+        $user->setTotalViews($user->getTotalViews() + 1);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('video_show', ['id' => $video->getId()]);
     }
 
     #[Route('/{id}', name: 'video_delete', methods: ['POST'])]

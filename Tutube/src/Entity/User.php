@@ -64,6 +64,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $totalviews;
+
     public function __construct()
     {
         $this->videos = new ArrayCollection();
@@ -225,6 +230,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $video->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalViews(): ?int
+    {
+        return $this->totalviews;
+    }
+
+    public function setTotalViews(int $totalviews): self
+    {
+        $this->totalviews = $totalviews;
 
         return $this;
     }

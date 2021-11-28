@@ -35,6 +35,14 @@
                 <th>Pseudo</th>
                 <td>{{ user.pseudo }}</td>
             </tr>
+            <tr>
+                <th>Nombre de vidéos postées</th>
+                <td>{{ user.videos|length }}</td>
+            </tr>
+            <tr>
+                <th>Total des vues</th>
+                <td>{{ user.totalviews }}</td>
+            </tr>
         </tbody>
     </table>
 
@@ -44,8 +52,39 @@
 
     {{ include('user/_delete_form.html.twig') }}
 
-    {% for video in user.videos %}
-    <p><b>{{video.id}}</b> : {{video.name}}</p>
-    <a href="{{ path('video_show', {'id': video.id}) }}">show</a>
-    {% endfor %}
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Preview</th>
+                <th>Title</th>
+                <th>PublicationDate</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for video in user.videos %}
+            <tr>
+                <td>{{ video.id }}</td>
+                <td><iframe width="280" height="160" src={{ 'https://www.youtube.com/embed/' ~ video.substrLink }} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></td>
+                <td>{{ video.name }}</td>
+                <td>{{ video.publicationDate ? video.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td><a href="{{ path('video_show', {'id': video.id}) }}">show</a>
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                {% if user.id == app.user.id %}
+                {{ include('video/_delete_form.html.twig') }}
+                {% endif %}
+                {% endif %}
+                </td>      
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Aucune vidéo postée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
 {% endblock %}

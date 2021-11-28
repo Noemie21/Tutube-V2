@@ -33,7 +33,7 @@
                 <td><iframe width="280" height="160" src={{ 'https://www.youtube.com/embed/' ~ video.substrLink }} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></td>
                 <td>{{ video.publicationDate ? video.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ video.views }}</td>
-                <td>{{ video.author}}</td>
+                <td><a href="{{ path('user_show', {'id': video.author.id}) }}">{{video.author}}</a></td>
                 <td>
                     <a href="{{ path('video_show', {'id': video.id}) }}">show</a>
                     {#<a href="{{ path('video_edit', {'id': video.id}) }}">edit</a>#}

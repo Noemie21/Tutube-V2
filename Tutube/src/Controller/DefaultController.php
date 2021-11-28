@@ -16,7 +16,12 @@ class DefaultController extends AbstractController
         //dd($this->getUser());
         return $this->render('default/index.html.twig', [
             'user' => $this->getUser(),
-            'videos' => $videoRepository->findAll(),
+            'videos' => $videoRepository->findBy(
+                array(),
+                array(),
+                10,
+                0
+            ),
         ]);
     }
 }

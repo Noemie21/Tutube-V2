@@ -9,17 +9,23 @@
     <h3>{{ video.name }}</h3>
 
     <iframe width="560" height="315" src={{ 'https://www.youtube.com/embed/' ~ video.substrLink }} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <p>Views : {{ video.views }}</p>
     <p>Description : </p>
     <p>{{ video.description }}</p>
     <p>Date de publication : {{ video.publicationDate ? video.publicationDate|date('Y-m-d') : '' }}</p>
     <p>Author : <a href="{{ path('user_show', {'id': video.author.id}) }}">{{video.author}}</a></p>
+    <a href="{{ path('video_addview', {'id': video.id}) }}">J'ai regardé la vidéo</a>
     
     <h3>Commentaires : </h3>
     {% for comment in video.comments %}
-    <p><b>{{comment.author}}</b> : {{comment.content}}</p>
+    <p><b><a href="{{ path('user_show', {'id': comment.author.id}) }}">{{comment.author}}</a></b> : {{comment.content}}</p>
+    <p>posté le : {{comment.publicationDate ? video.publicationDate|date('Y-m-d') : '' }}</p>
     {% endfor %} 
+
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     <h3>Ajouter un Commentaire</h3>
     {{ include('comment/_form.html.twig') }}
+    {% endif %}
 
     
 

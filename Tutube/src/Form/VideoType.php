@@ -23,9 +23,7 @@ class VideoType extends AbstractType
                 'input' => 'datetime',
                 'widget' => 'single_text',
                 'data' => new \DateTime("now")))*/
-            ->add('views')
             ->add('link')
-            ->add('author')
         ;
     }
 

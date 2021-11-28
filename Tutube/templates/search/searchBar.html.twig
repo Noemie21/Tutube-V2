@@ -1,0 +1,8 @@
+{#
+{% set foo = '<i class="fas fa-search"></i>' %}
+{{ form_widget(form.recherche, { 'label':  's'}) }}
+#}
+{{ form_start(form) }}
+            {{ form_widget(form.query) }}
+            {{ form_widget(form.recherche)}}
+{{ form_end(form) }}
