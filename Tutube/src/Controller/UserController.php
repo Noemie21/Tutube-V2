@@ -20,9 +20,9 @@ class UserController extends AbstractController
             'users' => $userRepository->findAll(),
         ]);
     }
-
+    /*
     #[Route('/new', name: 'user_new', methods: ['GET','POST'])]
-    /*public function new(Request $request): Response
+    public function new(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -78,5 +78,13 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/follow', name: 'user_follow', methods: ['GET','POST'])]
+    public function follow(Request $request, User $user): Response
+    {
+        $user->setFollowers($this->$user);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
     }
 }

@@ -69,10 +69,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $totalviews;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="follow")
+     */
+    private $followers;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="followers")
+     */
+    private $follow;
+
     public function __construct()
     {
         $this->videos = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->follow = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,6 +281,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFollowers(): ?self
+    {
+        return $this->followers;
+    }
+
+    public function setFollowers(?self $followers): self
+    {
+        $this->followers = $followers;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getFollow(): Collection
+    {
+        return $this->follow;
+    }
+
+    public function addFollow(self $follow): self
+    {
+        if (!$this->follow->contains($follow)) {
+            $this->follow[] = $follow;
+            $follow->setFollowers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollow(self $follow): self
+    {
+        if ($this->follow->removeElement($follow)) {
+            // set the owning side to null (unless already changed)
+            if ($follow->getFollowers() === $this) {
+                $follow->setFollowers(null);
             }
         }
 

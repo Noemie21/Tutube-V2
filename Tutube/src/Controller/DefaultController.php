@@ -18,8 +18,8 @@ class DefaultController extends AbstractController
             'user' => $this->getUser(),
             'videos' => $videoRepository->findBy(
                 array(),
-                array(),
-                10,
+                ['publicationDate' => 'DESC'],
+                20,
                 0
             ),
         ]);

@@ -35,7 +35,7 @@ class VideoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $video->setSubstrLink(substr($video->getLink(), 17));
+            $video->setSubstrLink(substr($video->getLink(), 32));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($video);
             $entityManager->flush();

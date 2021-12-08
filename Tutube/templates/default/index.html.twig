@@ -15,6 +15,14 @@
         <h1>Hello! ✅</h1>
     {% endif %}
     
+    <h3>Recherche : </h3>
+    <form class="d-flex">
+    <form class="d-flex">
+    {{ render(path('search', {max: 3})) }}    
+    </form>
+
+    </form>
+
     <table class="table">
         <thead>
             <tr>

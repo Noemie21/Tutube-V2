@@ -27,11 +27,13 @@
                     <li class="nav-item">
                     <a class="nav-link" href="{{ path('user_show', {id:app.user.id})}}">Profil</a>
                     </li>
+                {% endif %}
                     <li class="nav-item">
                     <a class="nav-link" href="{{ path('video_index') }}">Vidéos</a>
                     </li>
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ path('default') }}">Autre</a>
+                    <a class="nav-link" href="{{ path('default') }}">Abonnements</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">LogOut</a>
@@ -51,8 +53,15 @@
                 
                 {% endif %}
                 </ul>
-                    <form class="d-flex">{{ render(controller('App\\Controller\\SearchController::searchBar', {max: 3})) }}</form>
-
+                <form class="d-flex">
+                 {{ render(controller('App\\Controller\\SearchController::searchBar', {max: 3})) }}
+                </form>
+                    {#<form class="d-flex">
+                        {{ form_start(form) }}
+                            {{ form_widget(form.query) }}
+                            {{ form_widget(form.recherche)}}
+                        {{ form_end(form) }}
+                    </form>#}
                 </div>
             </div>
         </nav>
